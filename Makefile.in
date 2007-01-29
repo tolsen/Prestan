@@ -1,0 +1,97 @@
+# Prestan @configure_input@
+SHELL = @SHELL@
+
+# Installation directories
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+libexecdir = @libexecdir@
+bindir = @bindir@
+datadir = @datadir@
+
+# Toolchain settings
+CC = @CC@
+CFLAGS = @CFLAGS@
+CPPFLAGS = @DEFS@ @CPPFLAGS@ -I$(top_srcdir)/src 
+
+LDFLAGS = @LDFLAGS@
+LIBS = @NEON_LIBS@ @LIBS@
+# expat may be in LIBOBJS, so must come after $(LIBS) (which has -lneon)
+ALL_LIBS = -L. -ltest $(LIBS) $(LIBOBJS)
+
+top_builddir = .
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+@SET_MAKE@
+
+AR = @AR@
+RANLIB = @RANLIB@
+
+LIBOBJS = @LIBOBJS@
+TESTOBJS = src/common.o 
+HDRS = src/common.h config.h
+
+TESTS = Prestan
+
+URL = http://`hostname`/dav/
+CREDS = `whoami` `whoami`
+DIR = .
+OPTS = 
+
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL = @INSTALL@
+
+# Fixme; use $(LIBOBJS) here instead. not happy on many non-GNU makes
+# though; not sure why.
+ODEPS = subdirs libtest.a @LIBOBJS@
+
+all: $(TESTS)
+	@echo
+	@echo "  Now run:"
+	@echo ""
+	@echo '     make URL=http://dav.server/path/ check'
+	@echo ' or  make URL=http://dav.server/path/ CREDS="uname passwd" check'
+	@echo ""
+
+#Prestan: Prestan.in
+#	@./config.status Prestan
+
+
+install: $(TESTS) 
+	$(INSTALL) -d $(bindir)
+	$(INSTALL) -d $(libexecdir)/Prestan
+	$(INSTALL_PROGRAM) $(top_builddir)/Prestan $(bindir)/Prestan
+	for t in $(TESTS); do \
+	  $(INSTALL_PROGRAM) $(top_builddir)/$$t $(libexecdir)/Prestan/$$t; done
+
+Prestan: src/props.o src/basic.o src/locks.o $(ODEPS)
+	$(CC) $(LDFLAGS) -o $@ src/props.o src/basic.o src/locks.o $(ALL_LIBS)
+
+props: src/props.o $(ODEPS)
+	$(CC) $(LDFLAGS) -o $@ src/props.o $(ALL_LIBS)
+
+
+locks: src/locks.o $(ODEPS)
+	$(CC) $(LDFLAGS) -o $@ src/locks.o $(ALL_LIBS)
+
+
+subdirs:
+	(cd libneon && $(MAKE)) || exit 1
+
+libtest.a: $(TESTOBJS)
+	$(AR) cru $@ $(TESTOBJS)
+	$(RANLIB) $@
+
+clean:
+	rm -f */*.o $(TESTS) libtest.a
+
+.c.o:
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+Makefile: $(top_srcdir)/Makefile.in
+	./config.status Makefile
+
+src/common.o: src/common.c $(HDRS)
+src/locks.o: src/locks.c $(HDRS)
+src/props.o: src/props.c $(HDRS)
+src/basic.o: src/basic.c $(HDRS)

@@ -1,0 +1,61 @@
+Prestan 0.2.0 README
+
+New Feature: Support WebFolder Methods Measurements
+
+Prestan is a WebDAV server performance test suite that allows you comprehensively measure the performance of WebDAV server. Tests include:
+
+WebDAV Methods include: 
+
+* Property manipulation:
+ - PROPPATCH (single/multiple) properties on single resource.
+ - PROPFIND  (single/multiple, dead/live) properties on single resource. 
+* Resource management:
+ - PUT (small/medium/large) resources
+ - GET (small/medium/large) resources
+ - DELETE
+* Namespace management:
+ - MKCOL
+ - COPY single resource/collection
+ - MOVE single resource/collection
+* Locking
+ - LOCK/UNLOCK exclusive locks
+
+WebFolder Methods include: 
+ - GET resource
+ - PUT resource
+ - MKCOL
+ - COPY single resource
+ - MOVE single resource
+ - DELETE single resource
+ - OPEN a Co-Authoring resource
+ - CLOSE a Co-Authoring resource
+ - MOUNT a server at client side
+
+WebDAV is an extension to HTTP that allows remote collaborative authoring of 
+Web resources, defined in RFC 2518.
+
+Prestan code is based on neon library.
+
+1. Installation from Source
+   - From CVS you need this:	
+       	-- Need autoconf 2.51 or later version.
+	-- Run autogen.sh to generate configure script
+   	-- (
+           On a RedHat 7.3 system there are two versions of autoconf
+    	   installed.  Sadly, the old one is the default.  You'll need to
+    	   tell autogen which autoconf scripts to run:
+
+    	   AUTOHEADER=autoheader-2.53 AUTOCONF=autoconf-2.53 ./autogen.sh 
+   	   )
+   - Get Prestan-x-x-x.tar.gz.
+   - Untar 
+   - configure; make; make install
+   - Set --with-debug when you do configure to see debug info.
+   - If you compile Prestan with debug option, 
+     it is NOT running as a daemon mode for debugging convenience.
+
+2.  Participation
+  Prestan is an Open Source project, and we welcome your participation.
+  Please join developer mailing list dav-linuxfs@lists.sf.net
+  For cvs commit info, join dav-checkins@lists.sf.net
+

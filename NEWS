@@ -1,0 +1,2 @@
+Changes in version 0.2.0:
+- Support WebFolder methods measurements, including GET, PUT, MKCOL, COPY, MOVE, DELETE, OPEN, CLOSE, MOUNT.

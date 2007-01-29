@@ -1,0 +1,17 @@
+configure
+config.h
+config.h.in
+Makefile
+config.cache
+config.log
+config.status
+aclocal.m4
+*.log
+reconf*
+http
+copymove
+props
+basic
+locks
+log
+litmus
