@@ -16,7 +16,7 @@ CPPFLAGS = @DEFS@ @CPPFLAGS@ -I$(top_srcdir)/src
 LDFLAGS = @LDFLAGS@
 LIBS = @NEON_LIBS@ @LIBS@
 # expat may be in LIBOBJS, so must come after $(LIBS) (which has -lneon)
-ALL_LIBS = -L. -ltest $(LIBS) $(LIBOBJS)
+ALL_LIBS = -L. -ltest -lm $(LIBS) $(LIBOBJS)
 
 top_builddir = .
 top_srcdir = @top_srcdir@
@@ -83,7 +83,11 @@ libtest.a: $(TESTOBJS)
 	$(RANLIB) $@
 
 clean:
-	rm -f */*.o $(TESTS) libtest.a
+	cd libneon && $(MAKE) clean
+	-rm -f */*.o $(TESTS) libtest.a
+
+distclean: clean
+	-rm -f config.log config.status config.h Makefile libneon/Makefile
 
 .c.o:
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
@@ -95,3 +99,5 @@ src/common.o: src/common.c $(HDRS)
 src/locks.o: src/locks.c $(HDRS)
 src/props.o: src/props.c $(HDRS)
 src/basic.o: src/basic.c $(HDRS)
+
+.PHONY: clean distclean
