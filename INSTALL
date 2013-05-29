@@ -7,7 +7,7 @@ Basic Installation
     - Expat
     - GCC
     - Neon 0.24 (version 0.24.0-dev included)
-    - OpenSSL (0.9.7 or later)
+    - OpenSSL (0.9.7 or later, optional)
     - libxml
 
    On Debian/Ubuntu systems the prerequisites can be installed with:
