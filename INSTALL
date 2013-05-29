@@ -3,6 +3,16 @@ Basic Installation
 
    These are generic installation instructions.
 
+   Prerequisites:
+    - Expat
+    - GCC
+    - Neon 0.24 (version 0.24.0-dev included)
+    - OpenSSL (0.9.7 or later)
+    - libxml
+
+   On Debian/Ubuntu systems the prerequisites can be installed with:
+     apt-get install libexpat1-dev libssl-dev gcc libxml2-dev
+
    The `configure' shell script attempts to guess correct values for
 various system-dependent variables used during compilation.  It uses
 those values to create a `Makefile' in each directory of the package.
