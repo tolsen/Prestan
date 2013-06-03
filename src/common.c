@@ -467,7 +467,13 @@ my_mkcol2(char* uri, int depth)
 			printf("ne_mkcol failed\n");
 			return;
 		}
-		my_mkcol2( myuri, depth-1);
+		# Return error if myuri + "sub/" is > 128
+		if (strlen(myuri) >= sizeof(myuri) - 4) {
+			printf("\nERROR: max depth reached.\n");	
+			exit(1);
+		} else {
+			my_mkcol2( myuri, depth-1);
+		}
 	}else if ( depth == 1)
 		for ( i=0; i<pget_option.width; i++){
 			memset(myuri, 0, sizeof(myuri));
